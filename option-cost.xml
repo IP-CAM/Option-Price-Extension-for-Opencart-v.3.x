@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Наценки для опций =</name>
+  <code>options=</code>
+  <version>2.0</version>
+  <author>begemot</author>
+  <link>https://begemot.com</link>
+  <file path="system/library/cart/cart.php">    
+      <operation>
+        <search><![CDATA[$option_price += $option_value_query->row['price'];]]></search>
+        <add position="replace" ><![CDATA[
+          $option_price = $option_value_query->row['price'];
+        ]]></add>
+      </operation>
+    <operation>
+        <search><![CDATA['price'           => ($price + $option_price),]]></search>
+        <add position="replace"><![CDATA[
+          'price'           => ($option_price ? $option_price : $price),
+        ]]> 
+      </add>
+    </operation>
+    <operation>
+        <search><![CDATA['total'           => ($price + $option_price) * $cart['quantity'],]]></search>
+        <add position="replace"><![CDATA[
+          'total'           => ($option_price ? $option_price : $price) * $cart['quantity'],
+        ]]> 
+      </add>
+    </operation>    
+  </file>
+</modification>
